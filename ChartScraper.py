@@ -11,6 +11,28 @@ import numpy as np
 from time import sleep
 
 def bb_get_weekly_chart(chart_route, chart_date):
+    """Attempts to get data for the chart_route & chart date provided. There's
+    a simple check for valid chart routes (more details in parameter 
+    description), & the date is sent as is, as Billboard's site figures out 
+    what specific weekly chart based on the date being in that week.
+
+    Parameters: 
+        chart_route (str): A string with the specific chart type to get data 
+            from. Check bb_get_weekly_chart for current valid chart routes.
+            Currently valid (others will likely work, but I've only tested & 
+            created datasets from these, just have to modify the 
+            valid_chart_routes list): 'r-b-hip-hop-albums', 
+            'r-b-hip-hop-songs', 'hot-100', 'billboard-200', 'pop-songs', 
+            'rock-songs', 'latin-songs', 'dance-electronic-songs', 
+            'country-songs', 'youtube', & 'japan-hot-100'
+        chart_date (str): Date to get a weekly chart for. It's in 
+            the format 'YYYY-MM-DD'. 
+    Output: 
+        DataFrame: Contains data from the weekly chart for the given 
+        date extracted & indexed by '<chart_date>_<chart_rank>'. It contains 
+        the column names: ranking, artist, title, last_week_rank, 
+        peak_position, weeks_on_chart, chart_date    
+    """    
     billboard_url = 'https://www.billboard.com/charts/'
     valid_chart_routes = ['r-b-hip-hop-albums', 'r-b-hip-hop-songs', 'hot-100', 
                           'billboard-200', 'pop-songs', 'rock-songs', 
@@ -42,6 +64,25 @@ def bb_get_weekly_chart(chart_route, chart_date):
                                        'weeks_on_chart', 'chart_date'])
     
 def bb_get_multiple_charts(chart_route, chart_from_date, chart_to_date):
+    """Main function to get weekly Billboard charts. Will attempt to attain
+    weekly charts between chart_from_date to chart_to_date in increments of 7 
+    days (first chart will be the from date, next will be that date + 7 days 
+    until it exceeds the chart_to_date). Uses the function bb_get_weekly_chart.
+
+    Parameters: 
+        chart_route (str): A string with the specific chart type to get data 
+            from. Check bb_get_weekly_chart for current valid chart routes.
+        chart_from_date (str): Date to start gathering weekly charts. It's in 
+            the format 'YYYY-MM-DD'. 
+        chart_to_date (str): Date up to when you want to collect weekly charts. 
+            It's in the format 'YYYY-MM-DD'. Last chart will be either this 
+            date or 1 to 6 days earlier.
+    Output: 
+        DataFrame: Contains data from all the weekly charts between the given 
+        dates extracted & indexed by '<chart_date>_<chart_rank>'. It contains 
+        the column names: ranking, artist, title, last_week_rank, 
+        peak_position, weeks_on_chart, chart_date    
+    """    
     chart_data_collection_df = bb_get_weekly_chart(chart_route, chart_from_date)
     chart_date_index = datetime.datetime.strptime(
             chart_from_date, "%Y-%m-%d") + datetime.timedelta(days=7)
@@ -132,8 +173,8 @@ def _bb_extract_number_one_data(content_str, chart_date):
     Parameters:
         content_str (str): A string coverted version of the contents of a 
             request Billboard Chart page
-        chart_date (str): date used to retrieve the chart, in the format 
-            'YYYY-MM-DD', identifies the chart the entry belongs to    
+        chart_date (str): Date used to retrieve the chart, in the format 
+            'YYYY-MM-DD'.
     Output:
         DataFrame: contains chart data extracted and indexed by 
             '<chart_date>_<chart_rank>' with the column names: ranking, 
@@ -206,8 +247,8 @@ def _bb_extract_chart_element(chart_str, chart_date):
     Parameters: 
         content_str (str): A string coverted version of the contents of a 
             request Billboard Chart page
-        chart_date (str): date used to retrieve the chart, in the format 
-            'YYYY-MM-DD', identifies the chart the entry belongs to
+        chart_date (str): Date used to retrieve the chart, in the format 
+            'YYYY-MM-DD'.
     
     Output:
         DataFrame: contains chart data extracted and indexed by 
@@ -282,7 +323,7 @@ def _bb_extract_chart_data(content_str, chart_date):
         content_str (str): A string coverted version of the contents of a 
             request Billboard Chart page
         chart_date (str): date used to retrieve the chart, in the format 
-            'YYYY-MM-DD', identifies the chart the entry belongs to
+            'YYYY-MM-DD'.
     Output: 
         DataFrame: contains chart data extracted and indexed by 
             '<chart_date>_<chart_rank>' with the column names: ranking, 

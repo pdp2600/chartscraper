@@ -1,8 +1,23 @@
 # -*- coding: utf-8 -*-
 """
 Created on Wed Nov 14 15:55:56 2018
-Functions to access Billboard's weekly charts and extracting chart data
+Functions to access Billboard's weekly charts and extract chart data
 @author: PDP2600
+Copyright (C) 2019 Peter Pesic
+
+This module is free software: you can redistribute it and/or modify it under 
+the terms of the GNU General Public License as published by the Free Software 
+Foundation, either version 3 of the License, or (at your option) any later 
+version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY 
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
+PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with 
+this module (LICENSE.txt).  If not, see <https://www.gnu.org/licenses/>.
+
+Contact: http://www.twitter.com/PDP2600
 """
 import requests
 import pandas as pd

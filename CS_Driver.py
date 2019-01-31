@@ -4,13 +4,17 @@ Created on Wed Jan  9 18:33:52 2019
 Example driver script for ChartScraper.py
 @author: PDP2600
 """
-import os
-import sqlite3 as sql
 import pandas as pd
 import numpy as np
-os.chdir("D:\\Libraries\\Documents\\Python Scripts\\Billboard_Chart_Scraper")
+#Setup a symlink to the site-packages folder, to the drive I do work on and 
+#created a folder called local_modules to store my personal/local modules
+from local_modules import ChartScraper as cs
 
-import ChartScraper as cs
+#import os
+#import sys
+#sys.path.append('D:\\Libraries\\Documents\\local_python_modules')
+#os.chdir("D:\\Libraries\\Documents\\Python Scripts\\Billboard_Chart_Scraper")
+#import ChartScraper as cs
 
 pd.set_option('display.max_rows', 500)
 pd.set_option('display.max_columns', 500)
